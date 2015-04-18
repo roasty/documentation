@@ -1,27 +1,18 @@
 .. _contents:
 
-===============================
-ownCloud documentation contents
-===============================
+=================
+Table of Contents
+=================
 
 .. toctree::
-    :hidden:
-
+    :maxdepth: 2
+    
     index
-
-.. toctree::
-    :maxdepth: 3
-
+    whats_new
     webinterface
     files/index
     pim/index
+    documents
     bookmarks
-    mediaplayer
-    migration
-    
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
+    userpreferences
+    external_storage/index

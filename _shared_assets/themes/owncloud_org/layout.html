@@ -1,182 +1,160 @@
 {% extends "basic/layout.html" %}
-{% set script_files = script_files + ['_static/bootstrap.js'] %}
-{% set css_files = [ '_static/style.css', '_static/bootstrap-sphinx.css'] + css_files %}
 
-{# Sidebar: Rework into our Boostrap nav section. #}
+{% set theme_css_files = []%}
+{% if theme_bootstrap_version == "3" %}
+  {% set bootstrap_version, bootstrap_additional_css, navbar_version = "3.1.0", "theme", "" %}
+  {% set bs_span_prefix = "col-md-" %}
+{% else %}
+  {% set bootstrap_version, bootstrap_additional_css, navbar_version = "2.3.2", "responsive", "-2" %}
+  {% set bs_span_prefix = "span" %}
+{% endif %}
+
+{% if theme_bootswatch_theme %}
+  {# BS2 needs "bootstrap-responsive.css". BS3 doesn't. #}
+  {% if theme_bootstrap_version == "3" %}
+    {% set theme_css_files = theme_css_files + [
+        '_static/bootswatch-' + bootstrap_version + '/' + theme_bootswatch_theme + '/bootstrap.min.css',
+        '_static/bootstrap-sphinx.css'
+      ]
+    %}
+  {% else %}
+    {% set theme_css_files = theme_css_files + [
+        '_static/bootswatch-' + bootstrap_version + '/' + theme_bootswatch_theme + '/bootstrap.min.css',
+        '_static/bootstrap-' + bootstrap_version + '/css/bootstrap-' + bootstrap_additional_css + '.min.css',
+        '_static/bootstrap-sphinx.css'
+      ]
+    %}
+  {% endif %}
+{% else %}
+  {% set theme_css_files = theme_css_files + ['_static/main.min.css', '_static/styles.css']
+  %}
+{% endif %}
+
+{% if not bootswatch_css_custom %}
+  {% set bootswatch_css_custom = [] %}
+{% endif %}
+{% set css_files = css_files + theme_css_files + bootswatch_css_custom %}
+
+{% set script_files = script_files + [
+    '_static/js/jquery-1.11.0.min.js',
+    '_static/js/jquery-fix.js',
+    '_static/bootstrap-' + bootstrap_version + '/js/bootstrap.min.js',
+    '_static/bootstrap-sphinx.js'
+  ]
+%}
+
+{%- set render_sidebar = (not embedded) and (not theme_nosidebar|tobool) and sidebars %}
+
+{%- set bs_content_width = render_sidebar and "9" or "12"%}
+
+{%- block doctype -%}
+<!DOCTYPE html>
+{%- endblock %}
+
+{# Sidebar: Rework into our Bootstrap nav section. #}
 {% macro navBar() %}
-  <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner" style="margin:0;">
-      <div class="container">
-        <a class="brand" href="http://owncloud.org/" title="ownCloud.org" rel=
-        "home"><img src=
-        "http://owncloud.org//wp-content/themes/owncloudorg2/images/logo.png" alt=
-        "ownCloud Logo" /></a>
-
-        <div class="nav-collapse">
-          <div class="menu-header-container">
-            <ul id="menu-header" class="nav">
-              <li id="menu-item-1444" class=
-              "menu-item menu-item-type-post_type menu-item-object-page menu-item-1444">
-              <a href="http://owncloud.org/news/">News</a></li>
-
-              <li id="menu-item-2299" class=
-              "menu-item menu-item-type-post_type menu-item-object-page menu-item-2299">
-              <a href="http://owncloud.org/features/">Features</a></li>
-
-              <li id="menu-item-3417" class=
-              "menu-item menu-item-type-post_type menu-item-object-page menu-item-3417">
-              <a href="http://owncloud.org/about/">About</a></li>
-
-              <li id="menu-item-732" class=
-              "menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-14 current_page_item menu-item-732">
-              <a href="http://doc.owncloud.org/">Documentation</a></li>
-
-              <li id="menu-item-731" class=
-              "menu-item menu-item-type-post_type menu-item-object-page menu-item-731">
-              <a href="http://owncloud.org/dev/">Developer</a></li>
-
-              <li id="menu-item-6" class=
-              "menu-item menu-item-type-custom menu-item-object-custom menu-item-6">
-              <a target="_blank" href="http://owncloud.com">Commercial &#8594;</a></li>
-            </ul>
-          </div><a href="http://owncloud.org/install" class=
-          "btn btn-success nav-btn">Install</a> <a href="http://demo.owncloud.org" id=
-          "demoheaderbtn" target="_blank" class="btn btn-info nav-btn">Try it!</a>
-        </div>
-      </div>
+<header class="banner navbar navbar-default navbar-static-top" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="brand" href="http://owncloud.org/" rel="home" title="ownCloud.org"><img class="logo" src="{{ pathto('_static/img/logo_owncloud.svg', 1) }}" itemprop="logo"></a>
     </div>
+
+    <nav class="collapse navbar-collapse" role="navigation">
+      <ul id="menu-header" class="nav navbar-nav">
+        <li class="menu-news"><a href="https://owncloud.org/news/">News</a></li>
+        <li class="menu-features"><a href="https://owncloud.org/features/">Features</a></li>
+        <li class="menu-demo"><a href="https://demo.owncloud.org">Demo</a></li>
+        <li class="menu-documentation"><a href="https://doc.owncloud.org">Documentation</a></li>
+        <li class="menu-contribute"><a href="https://owncloud.org/contribute/">Contribute</a>
+        <li class="menu-commercial"><a href="https://owncloud.org/support">Support</a></li>
+        <li class="menu-install"><a href="https://owncloud.org/install/">Download</a></li>
+      </ul>
+    </nav>
   </div>
-  {#
-  <div id="navbar" class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container-fluid">
-        <a class="brand" href="{{ pathto(master_doc) }}">{{ project|e }}</a>
-        <span class="navbar-text pull-left"><b>{{ version|e }}</b></span>
-          <ul class="nav">
-            <li class="divider-vertical"></li>
-            {% block sidebartoc %}
-              {% include "globaltoc.html" %}
-              {% include "localtoc.html" %}
-            {% endblock %}
-            {% block sidebarrel %}
-              {% include "relations.html" %}
-            {% endblock %}
-            {% block sidebarsourcelink %}
-              {% include "sourcelink.html" %}
-            {% endblock %}
-          </ul>
-          {% block sidebarsearch %}
-            {% include "searchbox.html" %}
-          {% endblock %}
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  #}
+</header>
 {% endmacro %}
 
+{% if theme_bootstrap_version == "3" %}
+  {%- macro bsidebar() %}
+      {%- if render_sidebar %}
+      <div class="{{ bs_span_prefix }}3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+          {%- for sidebartemplate in sidebars %}
+            {%- include sidebartemplate %}
+          {%- endfor %}
+        </div>
+      </div>
+      {%- endif %}
+  {%- endmacro %}
+{% else %}
+  {%- macro bsidebar() %}
+      {%- if render_sidebar %}
+      <div class="{{ bs_span_prefix }}3">
+        <div id="sidebar" class="bs-sidenav well" data-spy="affix">
+          {%- for sidebartemplate in sidebars %}
+            {%- include sidebartemplate %}
+          {%- endfor %}
+        </div>
+      </div>
+      {%- endif %}
+  {%- endmacro %}
+{% endif %}
+
 {%- block extrahead %}
-<script type="text/javascript">
-(function () {
-  /**
-   * Patch TOC list.
-   *
-   * Will mutate the underlying span to have a correct ul for nav.
-   *
-   * @param $span: Span containing nested UL's to mutate.
-   * @param minLevel: Starting level for nested lists. (1: global, 2: local).
-   */
-  var patchToc = function ($ul, minLevel) {
-    var findA;
-
-    // Find all a "internal" tags, traversing recursively.
-    findA = function ($elem, level) {
-      var level = level || 0,
-        $items = $elem.find("> li > a.internal, > ul, > li > ul");
-
-      // Iterate everything in order.
-      $items.each(function (index, item) {
-        var $item = $(item),
-          tag = item.tagName.toLowerCase(),
-          pad = 15 + ((level - minLevel) * 10);
-
-        if (tag === 'a' && level >= minLevel) {
-          // Add to existing padding.
-          $item.css('padding-left', pad + "px");
-          console.log(level, $item, 'padding-left', pad + "px");
-        } else if (tag === 'ul') {
-          // Recurse.
-          findA($item, level + 1);
-        }
-      });
-    };
-
-    console.log("HERE");
-    findA($ul);
-  };
-
-  $(document).ready(function () {
-    // Add styling, structure to TOC's.
-    $(".dropdown-menu").each(function () {
-      $(this).find("ul").each(function (index, item){
-        var $item = $(item);
-        $item.addClass('unstyled');
-      });
-      $(this).find("li").each(function () {
-        $(this).parent().append(this);
-      });
-    });
-
-    // Patch in level.
-    patchToc($("ul.globaltoc"), 2);
-    patchToc($("ul.localtoc"), 2);
-
-    // Enable dropdown.
-    $('.dropdown-toggle').dropdown();
-  });
-}());
-</script>
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
 {% endblock %}
 
-{% block header %}{{ navBar() }}{% endblock %}
-
 {# Silence the sidebar's, relbar's #}
-{% block sidebar1 %}{% endblock %}
-{% block sidebar2 %}{% endblock %}
+{% block header %}{% endblock %}
 {% block relbar1 %}{% endblock %}
 {% block relbar2 %}{% endblock %}
+{% block sidebarsourcelink %}{% endblock %}
 
 {%- block content %}
-<div class="container">
-  <div class="content">
-    <div class="page-header">
-      <h1><a href="{{ pathto(master_doc) }}">{{ project|e }}</a></h1>
-
-      <form class="headersearch" style="margin-bottom:-3px;" action="{{ pathto('search') }}" method="get">
-        <input type="text" value="" name="q" id="q" /> <input type="submit" id=
-        "searchsubmit" class="btn" value="Search" />
-      </form>
+{{ navBar() }}
+<div class="wrap container not-front">
+  <div class="content row">
+  <main class="main">
+    <div class="row page-content-header">
+      <div class="col-md-6">
+        <h1><a href="{{ pathto(master_doc) }}">{{ project|e }}</a></h1>
+      </div>
+      <div class="col-md-5 col-md-offset-1">
+      {% if theme_show_search %}
+        <form class="headersearch" style="margin-bottom:-3px;" action="{{ pathto('search') }}" method="get">
+        <input type="text" value="" name="q" id="q" class="form-control" /> 
+        <button  class="btn btn-default" type="submit" id="searchsubmit">Search</button>
+        </form>
+      {% endif %}
+      </div>
     </div>
     {% block sidebartoc %}
 			<div class="row">
-				<div class="span3">
+				<div class="col-md-3">
 					<div class="sidebar">
-						<div class="well">
 							<div class="menu-support-container">
 								<ul id="menu-support" class="menu">
 									<ul>
-										<li><a href="{{ pathto(master_doc) }}">Overview</a></li>
+										
+<li><a href="{{ pathto(master_doc) }}">Table of Contents</a></li>
 									</ul>
                   {{ toctree(maxdepth=3) }}
 								</ul>
 							</div>
-						</div>
 					</div>
 				</div>
         {% endblock %}
 
-				<div class="span9">
+				<div class="col-md-9">
 					<div class="page-content">
             {% include "relations.html" %}
 						{% block body %}{% endblock %}
@@ -184,19 +162,60 @@
 					</div>
 				</div>
 			</div>
-    
+  </main>  
   </div>
 </div>
 {%- endblock %}
 
-
-
-
 {%- block footer %}
-<footer class="footer">
-  <div class="container">
-    <p class="pull-right"><a href="#">Back to top</a></p>
-    <p>
+<div class="row">
+    <div class="col-lg-12 footer-social-icons">
+      <p class="text-center"><a target="_blank" href="https://plus.google.com/107072838776436530705/about"><img width=50 src="{{ pathto('_static/img/social/googleplus.png', 1) }}"></img></a>
+      <a target="_blank" style="margin: 0 7px 0 14px;" href="https://www.facebook.com/ownClouders"><img width=50 src="{{ pathto('_static/img/social/facebook.png', 1) }}"></img></a>
+      <a target="_blank" style="margin: 0 14px 0 7px;" href="https://twitter.com/ownClouders"><img width=50 src="{{ pathto('_static/img/social/twitterround.png', 1) }}"></img></a>
+      <a target="_blank" href="https://owncloud.org/blogfeed"><img class="img-circle" width=50 src="{{ pathto('_static/img/social/rss.png', 1) }}"></img></a></p>
+    </div>
+</div>
+<footer class="content-info" role="contentinfo">
+<div class="container">
+   <div class="row">
+     <div class="col-sm-2 col-sm-offset-1">
+        <div class="footer-nav">
+          <h4>About ownCloud</h4>
+          <ul id="menu-about" class="menu">
+            <li class="menu-contact"><a href="https://owncloud.org/contact/">People</a></li>
+            <li class="menu-history"><a href="https://owncloud.org/history/">History</a></li>
+            <li class="menu-events"><a href="https://owncloud.org/events/">Events</a></li>
+            <li class="menu-press"><a href="https://owncloud.org/press">Press</a></li>
+          </ul>
+        </div>
+     </div>
+     <div class="col-sm-2 col-sm-offset-2">
+        <div class="footer-nav">
+          <h4>Resources</h4>
+          <ul id="menu-support-and-documentation" class="menu">
+            <li class="menu-admin-manual"><a href="https://doc.owncloud.org">Documentation</a></li>
+            <li class="menu-faq"><a href="https://owncloud.org/faq/">FAQ</a></li>
+            <li class="menu-security"><a href="https://owncloud.org/security/">Security</a></li>
+            <li class="menu-store"><a href="http://www.cafepress.com/owncloudshop">ownCloud Store</a></li>
+          </ul>
+        </div>
+     </div>
+     <div class="col-sm-2 col-sm-offset-2">
+        <div class="footer-nav">
+          <h4>Interact</h4>
+          <ul id="menu-interact" class="menu">
+            <li class="menu-irc-channel"><a href="https://webchat.freenode.net/?channels=owncloud">IRC Channel</a></li>
+            <li class="menu-mailing-list"><a href="https://mailman.owncloud.org/mailman/listinfo/">Mailing List</a></li>
+            <li class="menu-forums"><a href="https://forum.owncloud.org/">Forums</a></li>
+            <li class="menu-bug-tracker"><a href="https://owncloud.org/contribute">Get involved</a></li>
+            <li class="menu-promote"><a href="/promote/">Spread the word</a></li>
+
+          </ul>
+        </div>
+     </div>
+   </div>
+      <p>
     {%- if show_copyright %}
       {%- if hasdoc('copyright') %}
         {% trans path=pathto('copyright'), copyright=copyright|e %}&copy; <a href="{{ path }}">Copyright</a> {{ copyright }}.{% endtrans %}<br/>
@@ -214,5 +233,3 @@
   </div>
 </footer>
 {%- endblock %}
-
-

@@ -1,78 +1,51 @@
-
-===================
-Admin Documentation
-===================
+============================================================
+ownCloud |version| Server Administration Manual Introduction
+============================================================
 
 Introduction
-============
+------------
 
-This is the administrators manual for ownCloud, a flexible, open source file
-sync and share solution. It comprises of the ownCloud server, as well as client
-applications for Microsoft Windows, Mac OS X and Linux (Desktop Client) and
-mobile clients for the Android and Apple iOS operating system.
+Welcome to the ownCloud Server Administration Guide. This guide describes 
+administration tasks for ownCloud, the flexible open source file synchronization 
+and sharing solution. ownCloud includes the ownCloud server, which runs on 
+Linux, client applications for Microsoft Windows, Mac OS X and Linux, and mobile 
+clients for the Android and Apple iOS operating systems.
 
-Target audience
+Current editions of ownCloud manuals are always available online at 
+`doc.owncloud.org <https://doc.owncloud.org/>`_ and `doc.owncloud.com 
+<https://doc.owncloud.com/>`_.
+
+ownCloud server is available in three editions:
+
+* The free community-supported Server. This is the core server for all editions.
+* The Standard Subscription for customers who want paid support for the core 
+  Server, without Enterprise applications.
+* The Enterprise Subscription replaces the Enterprise Edition. This 
+  includes the core Server, Enterprise apps and support.
+  
+See :doc:`../whats_new_admin` for more information on the different ownCloud 
+editions.
+
+ownCloud Videos
 ---------------
 
-This guide is targeted towards people who want to install, administer and
-optimize ownCloud Server. If you want to learn how to use the Web UI, or how to
-install clients on the server, please refer to the `User Manual`_ or the `Desktop
-Client Manual`_ respectively.
+See :doc:`videos/index` for howtos, demos, news, and Webinars for both the 
+Server and Enterprise Subscription versions of ownCloud.
 
-.. _`User Manual`: http://doc.owncloud.com/
-.. _`Desktop Client Manual`: http://doc.owncloud.com/
+Target Audience
+---------------
 
-Structure of this document
---------------------------
+This guide is for users who want to install, administer, and
+optimize their ownCloud servers. To learn more about the ownCloud Web
+user interface, and desktop and mobile clients, please refer to their 
+respective manuals:
 
-The next chapters describes how to set up ownCloud Server on different platforms
-and operating systems, as well as how to update existing installations.
+* `ownCloud User Manual`_
+* `ownCloud Desktop Client`_
+* `ownCloud Android App`_
+* `ownCloud iOS App`_ 
 
-Further chapters will then detail on integrating ownCloud into your existing
-environment, e.g. how to setup LDAP or how to mount your storage.
-
-
-Installation
-============
-This chapter will introduce you to the installation of ownCloud in different
-scenarios.
-
-If you want to just try ownCloud in a virtual machine without any configuration, check the section :doc:`installation/installation_appliance`, where you will find ready-to-use images.
-
-* :doc:`installation/installation_appliance`
-* :doc:`installation/installation_linux`
-* :doc:`installation/installation_macos`
-* :doc:`installation/installation_windows`
-* :doc:`installation/installation_ucs`
-* :doc:`installation/installation_source`
-* :doc:`installation/installation_others`
-
-Configuration
-=============
-This chapter covers ownCloud and Webserver configuration.
-
-* :doc:`configuration/configuration_3rdparty`
-* :doc:`configuration/configuration_apps`
-* :doc:`configuration/configuration_automation`
-* :doc:`configuration/configuration_database`
-* :doc:`configuration/configuration_knowledgebase`
-* :doc:`configuration/configuration_logging`
-* :doc:`configuration/configuration_mail`
-* :doc:`configuration/configuration_reverseproxy`
-* :doc:`configuration/custom_mount_config`
-* :doc:`configuration/custom_user_backend`
-* :doc:`configuration/auth_ldap`
-* :doc:`configuration/xsendfile`
-
-Maintenance
-===========
-This chapter covers maintenance tasks such as updating or migrating to a new version.
-
-* :doc:`maintenance/migrating`
-* :doc:`maintenance/update`
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
+.. _`ownCloud User Manual`: http://doc.owncloud.org/
+.. _`ownCloud Desktop Client`: http://doc.owncloud.org/
+.. _`ownCloud Android App`: http://doc.owncloud.org/
+.. _`ownCloud iOS App`: http://doc.owncloud.org/

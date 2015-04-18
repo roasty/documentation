@@ -22,22 +22,27 @@ reviewed!
 How will it work?
 -----------------
 
-#. A developer will submit his changes on GitHub via a pull request.
-   `GitHub:help - using pull requests`_ #. Within the pull request the developer
-   could already name other developers (using @GitHubusername) and ask them for
-   review.
+#. A developer will submit his changes on GitHub via a pull request (PR).
+   `GitHub:help - using pull requests <https://help.GitHub.com/articles/using-pull-requests>`_
+#. Within the pull request the developer could already name other developers (using
+   @GitHubusername) and ask them for review.
+#. Using Labels section on the right side, they add *"5 - To review"* label if the patch is
+   complete. If they have no permission to do that, other developers may add this Label in case
+   PR author had indicated.
 #. Other developers (either named or at free will) have a look at the changes
-   and are welcome to write comments within the comment field.  #. In case the
-   reviewer is okay with the changes and thinks all his comments and suggestions
-   have been take into account a :+1 on the comment will signal a positive
+   and are welcome to write comments within the comment field.
+#. In case the reviewer is okay with the changes and thinks all his comments and
+   suggestions have been take into account a :+1 on the comment will signal a positive
    review.
 #. Before a pull request will be merged into master or the corresponding
    branch at least 2 reviewers need to give :+1 score.
 #. Our `continuous integration server`_ will give an additional indicator for
-   the quality of the pull rquest.
+   the quality of the pull request.
 
 Examples
 --------
+Read our `coding guidelines`_ for information on what a good pull request and
+good ownCloud code looks like.
 
 These are two examples that are considered to be good examples of how pull
 requests should be handled
@@ -51,7 +56,7 @@ Questions?
 Feel free to drop a line on the `mailing list`_ or join us on `IRC`_.
 
 .. _core repository: https://GitHub.com/owncloud/core
-.. _GitHub:help - using pull requests: https://help.GitHub.com/articles/using-pull-requests
-.. _continuous integration server: https://ci.tmit.eu/
-.. _mailing list: https://mail.kde.org/mailman/listinfo/owncloud
+.. _continuous integration server: https://ci.owncloud.org/
+.. _mailing list: https://mailman.owncloud.org/mailman/listinfo/devel
 .. _IRC: http://webchat.freenode.net/?channels=owncloud-dev
+.. _coding guidelines: ../general/codingguidelines

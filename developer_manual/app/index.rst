@@ -1,130 +1,137 @@
 .. _appindex:
 
-================
-App Developement
-================
+.. sectionauthor:: Bernhard Posselt <dev@bernhard-posselt.com>
+
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :hidden:
 
-   general/index
-   intro/index
-   app/index
-   appframework/index
+   changelog
+   tutorial
+   startapp
+   init
+   info
+   classloader
+   request
+   routes
+   middleware
+   container
+   controllers
+   api
+   templates
+   js
+   css
+   l10n
+   schema
+   database
+   configuration
+   filesystem
+   users
+   hooks
+   backgroundjobs
+   logging
+   testing
+
+===============
+App Development
+===============
+.. sectionauthor:: Bernhard Posselt <dev@bernhard-posselt.com>
 
 Intro
------
+=====
+
+Before you start, please check if there already is a `similar app <http://apps.owncloud.com>`_ you could contribute to. Also, feel free to communicate your idea and plans to the `user mailing list <http://mailman.owncloud.org/mailman/listinfo/user>`_ or `developer mailing list <http://mailman.owncloud.org/mailman/listinfo/devel>`_ so other contributors might join in.
+
+Then, please make sure you have set up a development environment:
+
+* :doc:`../general/devenv`
+
 Before starting to write an app please read the security and coding guidelines:
 
-* :doc:`general/security`
-* :doc:`general/codingguidelines`
+* :doc:`../general/security`
+* :doc:`../general/codingguidelines`
 
-After this you can start to write your app:
+After this you can start with the tutorial
 
-* :doc:`intro/gettingstarted`
-* :doc:`intro/createapp`
+* :doc:`tutorial`
 
-App Development using ownCloud App API
---------------------------------------
-You can choose between the traditional and MVC style (App Framework) approach. For a comparison see :ref:`appframework-compare`. This approach uses the basic ownCloud libraries and provides no classes to use for MVC development and testing. 
+App development
+===============
+Take a look at the changes in this version:
 
-* :doc:`app/tutorial`
+* :doc:`changelog`
 
+Create a new app:
 
-General
-~~~~~~~
-Inner parts of an app
+* :doc:`startapp`
 
-* :doc:`app/classloader`
-* :doc:`app/routes`
-* :doc:`app/info`
-* :doc:`general/debugging`
+Inner parts of an app:
 
-Database
-~~~~~~~~
-Database access
+* :doc:`init`
+* :doc:`info`
+* :doc:`classloader`
 
-* :doc:`app/schema` | :doc:`app/database`
+Requests
+--------
+How a request is being processed:
 
-Templates
-~~~~~~~~~
-HTML and inclusion of JavaScript and CSS
+* :doc:`request`
+* :doc:`routes`
+* :doc:`middleware`
+* :doc:`container`
+* :doc:`controllers` | :doc:`api`
 
-* :doc:`app/templates`
+View
+----
+The app's presentation layer:
 
-JavaScript & CSS
-~~~~~~~~~~~~~~~~
-* :doc:`app/static`
-* :doc:`app/javascript`
-* :doc:`app/css`
+* :doc:`templates`
+* :doc:`js`
+* :doc:`css`
+* :doc:`l10n`
 
-API Documentation
-~~~~~~~~~~~~~~~~~
-* `ownCloud App API <http://api.owncloud.org/namespaces/OCP.html>`_
+Storage
+-------
+Create database tables, run Sql queries, store/retrieve configuration information and access the filesystem:
 
-App Development using the App Framework App
--------------------------------------------
-Develop an app using an MVC Framework. The App Framework provides enhanced Security, MVC classes and testing tools but you need to read more until you can produce the first output.
+* :doc:`schema`
+* :doc:`database`
+* :doc:`configuration`
+* :doc:`filesystem`
 
-* :doc:`appframework/tutorial`
+Authentication & Users
+----------------------
+Creating, deleting, updating, searching, login and logout:
 
-General
-~~~~~~~
-Inner parts of an app
+* :doc:`users`
 
-* :doc:`appframework/classloader`
-* :doc:`appframework/container` | :doc:`general/dependencyinjection`
-* :doc:`appframework/routes`
-* :doc:`appframework/info`
-* :doc:`general/debugging`
+Hooks
+-----
+Listen on events like user creation and execute code:
 
-Controllers
-~~~~~~~~~~~
-Contain the logic for each request
+* :doc:`hooks`
 
-* :doc:`appframework/controllers`
+Background Jobs
+---------------
+Periodically run code in the background:
 
-Database
-~~~~~~~~
-Database access
+* :doc:`backgroundjobs`
 
-* :doc:`appframework/schema` | :doc:`appframework/database`
+Logging
+-------
+Log to the :file:`data/owncloud.log`:
 
-Templates
-~~~~~~~~~
-HTML and inclusion of JavaScript and CSS
-
-* :doc:`appframework/templates`
-
-JavaScript & CSS
-~~~~~~~~~~~~~~~~
-* :doc:`appframework/static`
-* :doc:`appframework/javascript`
-* :doc:`general/angular` | :doc:`appframework/angularsetup` | :doc:`appframework/angular`
-* :doc:`appframework/css`
-
-Middleware
-~~~~~~~~~~
-Hook before or after controller execution
-
-* :doc:`appframework/middleware`
+* :doc:`logging`
 
 Testing
-~~~~~~~
-* :doc:`appframework/unittesting`
+-------
+Write automated tests to ensure stability and ease maintenance:
 
-API Documentation
-~~~~~~~~~~~~~~~~~
-* :doc:`appframework/api/index`
+* :doc:`testing`
+
+PHPDoc Class Documentation
+--------------------------
+ownCloud class and function documentation:
+
 * `ownCloud App API <http://api.owncloud.org/namespaces/OCP.html>`_
-
-Additional APIs
----------------
-Can be used with and without App Framework
-
-* :doc:`appframework/data-migration`
-* :doc:`appframework/externalapi`
-* :doc:`appframework/hooks`
-* :doc:`appframework/filesystem`
-

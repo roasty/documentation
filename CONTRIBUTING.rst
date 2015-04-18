@@ -36,13 +36,11 @@ locally, follow these steps:
 5. Commit your work, if you have write access to ownCloud, or create a pull
    request otherwise.
 6. If you have committed the work yourself, please merge the result
-   into the master branch:
-
-  ::
+   into the latest branch (in this example: stable6)::
 
     git fetch origin
-    git checkout master
-    git merge origin/stable45 master
+    git checkout stable6 
+    git merge origin/stable5 master
     <resolve possible conflicts>
     git add <resolved conflict files>
     git commit
@@ -236,7 +234,7 @@ style. Here is some advise on what to watch out for when contributing.
   this is better written as:
 
     ... for the Apache web server, you should use a ``.htaccess`` file.
-    In case you are not using apache, the section :ref: `Web Server Notes`
+    In case you are not using Apache, the section :ref: `Web Server Notes`
     will explain how to implement alternatives to this Apache-proprietary
     way of securing your data directory.
 
@@ -346,12 +344,12 @@ Frequently Asked Questions
 
 .. _this stackoverflow question: http://stackoverflow.com/questions/3033423/vim-command-to-restructure-force-text-to-80-columns
 .. _directly on github: https://github.com/owncloud/documentation
-.. _Mr Jenkins: http://ci.tmit.eu
+.. _Mr Jenkins: http://ci.owncloud.org
 .. _ownCloud doc server: http://doc.owncloud.com
 .. _RST Cheat Sheet: http://github.com/ralsina/rst-cheatsheet/raw/master/rst-cheatsheet.pdf
 .. _reStructuredText Primer: http://sphinx-doc.org/rest.html
 .. _reStructuredText User Documentation: http://docutils.sourceforge.net/rst.html
-.. _own manual: https://github.com/owncloud/mirall/tree/master/doc
+.. _own manual: https://github.com/owncloud/client/tree/master/doc
 .. _Inkscape: http://www.inkscape.org
 .. _set up vim to spot unwanted spaces: http://vim.wikia.com/wiki/Highlight_unwanted_spaces
 .. _ownCloud mailinglist: mailto:owncloud@kde.org

@@ -11,7 +11,7 @@ Kanban Board = github issues + huboard
 --------------------------------------
 
 We are using http://huboard.com to visualize ownCloud github issues as a `kanban
-board`_ (see: `core`_, `apps`_, `mirall`_):
+board`_ (see: `core`_, `apps`_, `client`_):
 
 .. figure:: ../images/kanbanexample.png
    :scale: 70
@@ -141,7 +141,7 @@ Why do we have it?
 What does a developer think?
   "I’ll check the Scenario described earlier works as expected. If necessary
   I’ll update the related Gherkin Scenarios. `Jenkins`_ will test the scenario
-  on all kinds of platforms, webserver and database combinations with
+  on all kinds of platforms, web server and database combinations with
   `cucumber`_."
 
 When can I pull?
@@ -159,13 +159,13 @@ Why do we have it?
   With the Gherkin Scenario from the Concept Phase reviewers have a checklist to
   test if a Bug has been solved and if an Enhancement works as expected. **The
   most eager reviewer we have is Jenkins**. When it comes to testing he soldiers
-  on going through the different combinations of platform, webserver and
+  on going through the different combinations of platform, web server and
   database.
 
 What does a developer think?
   "Damn! If I had written the Gherkin Scenarios and Cucumber Step Definitions I
   could leave the task of testing this on the different combinations of platform,
-  webserver and database to Jenkins. I’ll miss something when doing this
+  web server and database to Jenkins. I’ll miss something when doing this
   manually.*
 
 When can I pull?
@@ -274,7 +274,7 @@ Release.
 .. _mailing list: mailto:owncloud@kde.org
 .. _core: http://huboard.com/owncloud/core/board/#
 .. _apps: http://huboard.com/owncloud/apps/board/#
-.. _mirall: http://huboard.com/owncloud/mirall/board/#
+.. _client: http://huboard.com/owncloud/client/board/#
 .. _Gherkin: https://github.com/cucumber/cucumber/wiki/Gherkin
 .. _existing ones: https://ci.tmit.eu/job/acceptance-test/cucumber-html-reports/?
 .. _“Given … when … then …“: https://github.com/cucumber/cucumber/wiki/Given-When-Then

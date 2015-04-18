@@ -1,68 +1,151 @@
-Updating ownCloud
-=================
+=======================================
+Upgrading ownCloud with the Updater App
+=======================================
 
-Update
-------
-Updating means updating ownCloud to the latest *point release*, e.g. ownCloud 4.0.6 → 4.0.7. To update an ownCloud installation manually, follow those steps:
+The Updater app automates many of the steps of updating an ownCloud 
+installation. You should keep your ownCloud server updated and not skip any 
+releases. The Updater app is enabled in your ownCloud Server instance by 
+default, which you can confirm by looking on your Apps page.
 
-.. note:: If you have installed ownCloud from a repository, your package management should take care of it.
+The Updater App is not required, and it is recommended to use other methods for 
+keeping your ownCloud server up-to-date, if possible. (See :doc:`upgrade`.) The 
+Updater App is useful for installations that do not have root access, 
+such as shared hosting, and for installations with a smaller number of users 
+and data.
 
-#. Make a backup.
-#. Unpack the release tarball in the owncloud directory, i.e. copy all new files into the ownCloud installation.
-#. Make sure that the file permissions are correct.
-#. After the next page request the update procedures will run.
+.. note:: The Updater app is not enabled and not supported in ownCloud 
+   Enterprise Subscription.
 
-Assuming your ownCloud installation is at **./owncloud/** and you want to update to the latest version, you could do the following:
+You should maintain regular backups (see :doc:`backup`), and make a backup 
+before every update. The Updater app does not backup your database or data 
+directory.
 
-Use rsync in archive mode (this leaves file owner, permissions, and time stamps untouched) to recursively copy all content from **./owncloud/** to a backup directory which contains the current date::
+The Updater app performs these operations:
 
-  rsync -a owncloud/ owncloud_bkp`date +"%Y%m%d"`/
+* Creates an ``updater_backup`` directory under your ownCloud data directory
+* Download and extracts updated package content into the 
+  ``updater_backup/packageVersion`` directory
+* Makes a copy of your current ownCloud instance, except for your data 
+  directory, to  ``updater_backup/currentVersion-randomstring``
+* Moves all directories except ``data``, ``config`` and ``themes`` from the 
+  current instance to ``updater_backup/tmp``
+* Moves all directories from ``updater_backup/packageVersion`` to the current 
+  version
+* Copies your old ``config.php`` to the new ``config/`` directory
 
-Download the latest version to the working directory::
+Using the Updater app to update your ownCloud installation is just a few 
+steps:
 
-  wget http://download.owncloud.org/community/owncloud-latest.tar.bz2
+1.  You should see a notification at the top of any ownCloud page when there is 
+    a new update available:
+   
+.. figure:: ../images/updater-1.png
+   
+2.  Even though the Updater app backs up important directories, you should 
+    always have your own current backups (See :doc:`backup` for details.)
+   
+3.  Verify that the HTTP user on your system can write to your whole ownCloud 
+    directory; see the :ref:`setting_strong_permissions` section below.
+   
+4.  Navigate to your Admin page and click the `Update Center` button under 
+    Updater:
 
-Extract content of archive to **./owncloud_latest/**::
+.. figure:: ../images/updater-2.png
 
-  mkdir owncloud_latest; tar -C owncloud_latest -xjf owncloud-latest.tar.bz2
+5.  This takes you to the Updater control panel.
 
-Use rsync to recursivly copy extracted files (new) to ownCloud installation (old) using modification times of the new files, but preserving owner and permissions of the old files:
+.. figure:: ../images/updater-3.png
 
-.. warning:: You should not use this [--inplace] option to update files that are being accessed by others *(from rysnc man page)*
+6.  Click Update, and carefully read the messages. If there are any problems it 
+    will tell you. The most common issue is directory permissions; your HTTP 
+    user needs write permissions to your whole ownCloud directory. (See 
+    :ref:`setting_strong_permissions`.) Otherwise you will see messages about 
+    checking your installation and making backups.
+    
+.. figure:: ../images/updater-9.png
+    :scale: 75 %
 
-::
+7.  Click Proceed, and then it performs the remaining steps, which takes a few 
+    minutes.
+    
+.. figure:: ../images/updater-10.png  
+    :scale: 75 %
 
-  rsync --inplace -rtv owncloud_latest/owncloud/ owncloud/
+8.  If your directory permissions are correct, a backup was made, and 
+    downloading the new ownCloud archive succeeded you will see the following 
+    screen. Click the Start Update button to complete your update:
 
-Clean up::
+.. figure:: ../images/updater-8.png
 
-  rm -rf owncloud-latest.tar.bz2 owncloud_latest/
+..  note:: If you have a large ownCloud installation, at this point you
+    should use the ``occ upgrade`` command, running it as your HTTP user, 
+    instead of clicking the Start Update button, in order to avoid PHP 
+    timeouts. The ``occ`` command does not download ownCloud updates. 
+    You must first download and install the updated code, and then ``occ`` 
+    performs the final upgrade steps.  This example is for Ubuntu Linux::
 
-Upgrade
--------
+     $ sudo -u www-data php occ upgrade
+   
+    See :doc:`../configuration_server/occ_command` to learn more about using 
+    the ``occ`` command. 
 
-.. note:: The update to 5.0 is currently discouraged for users of the encryption app. A rewrite of the encryption will be released in a few weeks. If you have already upgraded to 5.0 you will not be able to decrypt your files. The solution to this is to downgrade to the old version again. **Also make a backup before you downgrade!**
+9.  It runs for a few minutes, and when it is finished displays a success 
+    message, which disappears after a short time. 
+   
+.. figure:: ../images/updater-7.png
 
-Upgrade is to bring an ownCloud instance to a new *major release*, e.g.
-ownCloud 4.0.7 → 4.5.0. Always do backups anyway.
+Refresh your Admin page to verify your new version number. In the Updater 
+section of your Admin page you can see the current status and backups. These 
+are backups of your old and new ownCloud installations, and do not contain your 
+data files. If your update works and there are no problems you can delete the 
+backups from this screen.
 
-To upgrade ownCloud, follow those steps:
+.. figure:: ../images/updater-11.png
+    :scale: 75 %
 
-#. Make sure that you ran the latest point release of the major ownCloud
-   version, e.g. 4.0.7 in the 4.0 series. If not, update to that version first
-   (see above).
-#. **Make a backup of the ownCloud folder and the database**
-#. Deactivate all third party applications.
-#. Delete everything from your ownCloud installation directory, except data and
-   config.
-#. Unpack the release tarball in the owncloud directory (or copy the
-   files thereto).
-#. Make sure that the file permissions are correct.
-#. With the next page request the update procedures will run.
-#. If you had 3rd party applications, check if they provide versions compatible
-   with the new release.
+If the update fails, then you must update manually. (See :doc:`upgrade`.)
 
-If so, install and enable them, update procedures will run if needed.  9. If
-you installed ownCloud from a repository, your package management should take
-care of it. Probably you will need to look for compatible third party
-applications yourself. Always do backups anyway.
+Can't Login Without Updating
+----------------------------
+
+If you can't login to your ownCloud installation without performing an update 
+first, this means that updated ownCloud files have already been downloaded to 
+your server, most likely via your Linux package manager during a routine system 
+update. So you only need to click the Start Update button, or run the ``occ`` 
+command to complete the update.
+
+.. _setting_strong_permissions:
+
+Setting Strong Permissions
+--------------------------
+   
+For hardened security we  highly recommend setting the permissions on your 
+ownCloud directory as strictly as possible. These commands should be executed 
+immediately after the initial installation. Please follow the steps in the 
+**Setting Strong Directory Permissions** section of 
+:doc:`../installation/installation_wizard`.
+    
+These strict permissions will prevent the Updater app from working, as it needs 
+your whole ownCloud directory to be owned by the HTTP user. The generic command 
+to change ownership of all files and subdirectories in a directory to the HTTP 
+user is::
+
+    chown -R <http-user>:<http-user> /path/to/owncloud/
+
+* This example is for Ubuntu 14.04 LTS server::
+   
+    chown -R www-data:www-data /var/www/owncloud
+
+* Arch Linux::
+
+    chown -R http:http /path/to/owncloud/
+
+* Fedora::
+
+    chown -R apache:apache /path/to/owncloud/
+	
+* openSUSE::
+
+    chown -R wwwrun:www /path/to/owncloud/
+    
+After the Updater app has run, you should re-apply the strict permissions.

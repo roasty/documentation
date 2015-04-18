@@ -1,22 +1,33 @@
-.. _contents:
-
-===============================
-ownCloud documentation contents
-===============================
+=================
+Table of Contents
+=================
 
 .. toctree::
-    :hidden:
-
-    index
-
-.. toctree::
-    :maxdepth: 3
-
+    :maxdepth: 2
+     
+    index 
+    release_notes
+    whats_new_admin
     installation/index
-    configuration/index
+    configuration_user/index
+    configuration_files/index
+    configuration_server/index
+    configuration_database/index
     maintenance/index
+    operations/index
+    issues/index
+    videos/index
+    
+Enterprise Subscription Only
+----------------------------
 
-Indices and tables
-==================
+.. toctree::
+    :maxdepth: 2
 
-* :ref:`genindex`
+    enterprise_installation/index
+    enterprise_clients/index
+    enterprise_external_storage/index
+    enterprise_user_management/index
+    
+..    uncomment this when the app is released and page is published    
+..    enterprise_files_drop/index

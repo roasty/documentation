@@ -1,22 +1,36 @@
 Unit-Testing
 ============
 
-Getting PHPUnit
----------------
+PHP unit testing
+----------------
 
-Owncloud uses PHPUnit for tests. To install it, either get it via your packagemanager::
+Getting PHPUnit
+~~~~~~~~~~~~~~~
+
+ownCloud uses PHPUnit >= 3.7 for unit testing.
+
+To install it, either get it via your packagemanager::
 
   sudo apt-get install phpunit
 
-or install it via PEAR::
+or install it manually::
 
-  pear config-set auto_discover 1
-  pear install pear.phpunit.de/PHPUnit
+  wget https://phar.phpunit.de/phpunit.phar
+  chmod +x phpunit.phar
+  sudo mv phpunit.phar /usr/local/bin/phpunit
 
-After the installation the ''phpunit'' command is available.
+After the installation the ''phpunit'' command is available::
 
-Writing unittests
------------------
+  phpunit --version
+  
+And you can update it using::
+
+  phpunit --self-update
+
+You can find more information in the PHPUnit documentation: https://phpunit.de/manual/current/en/installation.html
+
+Writing PHP unit tests
+~~~~~~~~~~~~~~~~~~~~~~
 
 To get started, do the following:
  - Create a directory called ``tests`` in the top level of your application
@@ -24,48 +38,62 @@ To get started, do the following:
 
 Then you can simply run the created test with phpunit.
 
-.. note:: If you use owncloud functions in your class under test (i.e: OC::getUser()) you'll need to bootstrap owncloud or use dependency injection.
+.. note:: If you use ownCloud functions in your class under test (i.e: OC::getUser()) you'll need to bootstrap ownCloud or use dependency injection.
 
-.. note:: You'll most likely run your tests under a different user than the webserver. This might cause problems with your PHP settings (i.e: open_basedir) and requires you to adjust your configuration.
+.. note:: You'll most likely run your tests under a different user than the web server. This might cause problems with your PHP settings (i.e: open_basedir) and requires you to adjust your configuration.
 
 An example for a simple test would be:
 
-:file:`/srv/http/owncloud/apps/myapp/tests/testsuite.php`
+:file:`/srv/http/owncloud/apps/myapp/tests/testaddtwo.php`
 
 .. code-block:: php
 
-  <?php
-  require_once("../myfolder/myfunction.php");
+    <?php
+    namespace OCA\Myapp\Tests;
 
-  class TestAddTwo extends PHPUnit_Framework_TestCase {
+    class TestAddTwo extends \Test\TestCase {
+        protected $testMe;
 
-      public function testAddTwo(){
-          $this->assertEquals(5, addTwo(3));
-      }
+        protected function setUp() {
+            parent::setUp();
+            $this->testMe = new \OCA\Myapp\TestMe();
+        }
 
-  }
-  ?>
+        public function testAddTwo(){
+              $this->assertEquals(5, $this->testMe->addTwo(3));
+        }
 
-:file:`/srv/http/owncloud/apps/myapp/tests/testsuite.php`
+    }
+
+
+:file:`/srv/http/owncloud/apps/myapp/lib/testme.php`
 
 .. code-block:: php
 
-  <?php
-  function addTwo($number){
-      return $number + 2;
-  }
-  ?>
+    <?php
+    namespace OCA\Myapp;
+
+    class TestMe {
+        public function addTwo($number){
+            return $number + 2;
+        }
+    }
 
 In :file:`/srv/http/owncloud/apps/myapp/` you run the test with::
 
-  phpunit tests/testsuite.php
+  phpunit tests/testaddtwo.php
 
+
+Make sure to extend the ``\Test\TestCase`` class with your test and always call the parent methods,
+when overwriting ``setUp()``, ``setUpBeforeClass()``, ``tearDown()`` or ``tearDownAfterClass()`` method
+from the TestCase. These methods set up important stuff and clean up the system after the test,
+so the next test can run without side effects, like remaining files and entries in the file cache, etc.
 
 For more resources on PHPUnit visit: http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html
 
-Bootstrapping Owncloud
-----------------------
-If you use Owncloud functions or classes in your code, you'll need to make them available to your test by bootstrapping Owncloud.
+Bootstrapping ownCloud
+~~~~~~~~~~~~~~~~~~~~~~
+If you use ownCloud functions or classes in your code, you'll need to make them available to your test by bootstrapping ownCloud.
 
 To do this, you'll need to provide the ``--bootstrap`` argument when running PHPUnit
 
@@ -73,7 +101,7 @@ To do this, you'll need to provide the ``--bootstrap`` argument when running PHP
 
   phpunit --bootstrap tests/bootstrap.php apps/myapp/tests/testsuite.php
 
-If you run the test under a different user than your webserver, you'll have to
+If you run the test under a different user than your web server, you'll have to
 adjust your php.ini and file rights.
 
 :file:`/etc/php/php.ini`::
@@ -86,9 +114,79 @@ adjust your php.ini and file rights.
   su -c "chmod a+rx data/"
   su -c "chmod a+w data/owncloud.log"
 
+Running unit tests for the ownCloud core project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The core project provides a script that runs all the core unit tests using different database backends like sqlite, mysql, pgsql, oci (for Oracle)::
+
+  ./autotest.sh
+
+To run tests only for sqlite::
+
+  ./autotest.sh sqlite
+
+To run a specific test suite (note that the test file path is relative to the "tests" directory)::
+
+  ./autotest.sh sqlite lib/share/share.php
+
 Further Reading
----------------
+~~~~~~~~~~~~~~~
 - http://googletesting.blogspot.de/2008/08/by-miko-hevery-so-you-decided-to.html
 - http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html
 - http://www.youtube.com/watch?v=4E4672CS58Q&feature=bf_prev&list=PLBDAB2BA83BB6588E
 - Clean Code: A Handbook of Agile Software Craftsmanship (Robert C. Martin)
+
+JavaScript unit testing for core
+--------------------------------
+
+JavaScript Unit testing for **core** and **core apps** is done using the `Karma <http://karma-runner.github.io>`_ test runner with `Jasmine <http://pivotal.github.io/jasmine/>`_.
+
+Installing Node JS
+~~~~~~~~~~~~~~~~~~
+
+To run the JavaScript unit tests you will need to install **Node JS**.
+
+You can get it here: http://nodejs.org/
+
+After that you will need to setup the **Karma** test environment.
+The easiest way to do this is to run the automatic test script first, see next section.
+
+Running all tests
+~~~~~~~~~~~~~~~~~
+
+To run all tests, just run::
+
+  ./autotest-js.sh
+
+This will also automatically set up your test environment.
+
+Debugging tests in the browser
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To debug tests in the browser, you need to run **Karma** in browser mode::
+
+  karma start tests/karma.config.js
+
+From there, open the URL http://localhost:9876 in a web browser.
+
+On that page, click on the "Debug" button.
+
+An empty page will appear, from which you must open the browser console (F12 in Firefox/Chrome).
+
+Every time you reload the page, the unit tests will be relaunched and will output the results in the browser console.
+
+Unit test paths
+~~~~~~~~~~~~~~~
+
+JavaScript unit test examples can be found in :file:`apps/files/tests/js/`
+
+Unit tests for the core app JavaScript code can be found in :file:`core/js/tests/specs`
+
+Documentation
+~~~~~~~~~~~~~
+
+Here are some useful links about how to write unit tests with Jasmine and Sinon:
+
+- Karma test runner: http://karma-runner.github.io 
+- Jasmine: http://pivotal.github.io/jasmine
+- Sinon (for mocking and stubbing): http://sinonjs.org/ 
+

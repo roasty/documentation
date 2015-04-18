@@ -1,55 +1,76 @@
-The ownCloud Web Interface 
+==========================
+The ownCloud Web Interface
 ==========================
 
-You can connect to ownCloud with your web browser by pointing
-it to the address that you have received from your service
-provider. In case you are administering the server yourself,
-have a look at ownCloud Administrators Manual.
+You can connect to your ownCloud server using any Web browser; just point it to 
+your ownCloud server and enter your username and password.
 
-When you enter the URL, you will receive a page that is similar
-to the one depicted below:
+  .. figure:: images/oc_connect.png
+    :scale: 75%
 
-.. figure:: images/oc_connect.png
-   :scale: 50
+    **ownCloud login window**
 
-   The ownCloud login screen
+.. note:: Some apps like ``files_external`` or ``files_encryption`` are disabling the ``remember``
+   checkbox (shown above) on purpose if they are enabled by your administrator. 
 
-Login with the user name and password with you have received from
-your service provider. If you have set up the server yourself,
-log in with the user name which you have created during the
-setup process. You can add further users through the settings,
-or by hooking up a user backend, such as LDAP.
+Navigating the Main User Interface
+------------------------------------
 
-Overview
---------
+By default, the ownCloud Web interface opens to your Files page.
+Once you have accessed the ownCloud Server main web interface you can add files, 
+remove files, and make changes based on the access privileges set by you
+(if you are administering the server) or by your server administrator.
 
-After clicking the :guilabel:`Log in` button, you will be redirected
-to ownCloud's main web interface:
+  .. figure:: images/oc_main_web_labelled.png
+    :scale: 75%
 
-.. figure:: images/oc_ui.png
-   :scale: 50
+  **Navigating the main user interface**
 
-   The ownCloud main interface with the essential elements numbered
+The ownCloud Main User Interface contains the following fields and functions:
 
-The web interface comprises of the following items:
+* **Apps Selection Menu**: Located in the upper left corner, click the arrow to 
+  open a dropdown menu to navigate to your various available apps.
+  
+* **Apps Information** field: Located in the left sidebar, this provides 
+  filters and tasks associated with your selected app.  For example, when you 
+  are using the Files apps you have a special set of filters for quickly 
+  finding your files, such as files that have been shared with you, and files 
+  that you have shared with others. You'll see different items for other apps.
 
-1. **Navigation bar**: Allows navigation between different parts of ownCloud,
-   provided by apps. Not all apps depicted in this screen shot are installed
-   and enabled by default.
-2. **Application view**: This is where apps show their content. By default, this
-   will show the files and directory (file view) of your user on the ownCloud
-   installation.
-3. **Upload/Create button**: This allows you to create new files or upload
-   existing ones from your device. Note that you can also drop files from
-   Explorer or Finder onto the ownCloud file view and they will get uploaded to
-   ownCloud.
-4. **Search/Logout**: Search allows you to look for files and
-   directories. Currently, ownCloud does not provide a full text search, but
-   this may change in future releases.
-5. **Settings**: This button provides access to the settings menu, where you can
-   change your personal settings, such as the interface language or your
-   password. You can also retrieve the WebDAV URL (see next chapter) and show
-   your quota. Administrators will also get access to user management
-   (:guilabel:`Users`), the apps settings (:guilabel:`Apps`) and administrative
-   settings (:guilabel:`Admin`) including access to ownCloud's log.
+* **Application View**: The main central field in the ownCloud user interface.
+  This field displays the contents or user features of your selected app.
+
+* **Navigation Bar**: Located over the main viewing window (the Application
+  View), this bar provides a type of breadcrumbs navigation that enables you to
+  migrate to higher levels of the folder hierarchy up to the root level (home).
+
+* **New** button: Located in the Navigation Bar, the ``New`` button
+  enables you to create new files, new folders, or upload existing files from a
+  specified link.
+
+.. note:: You can also drag and drop files from your file manager into the 
+   ownCloud Files Application View to upload them to ownCloud.
+
+* **Upload** button: Located next to the ``New`` button in the
+  Navigation Bar, the ``Upload`` button opens a file picker for 
+  uploading files from your system to the ownCloud server. 
+
+* **Search** field: The Search field is in the upper right hand corner of 
+  your Web interface, for searching for files.
+
+* **Personal Settings** menu: Click on your ownCloud username, located to the 
+  right of the Search field, to open your Personal Settings dropdown menu. Your 
+  Personal page provides the following settings and features:
+
+  * Links to download desktop and mobile apps
+  * Re-run the First Run Wizard
+  * Server usage and space availability
+  * Password management
+  * Name, email, and profile picture settings
+  * Interface language settings
+  * Manage notifications
+  * SSL certificate manager
+  * ownCloud Version information
+
+  See :doc:`userpreferences` section to learn more about those settings.
 
